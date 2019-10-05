@@ -22,9 +22,10 @@ int main(int argc, char const *argv[])
 
   // insert value (node) into non-empty list
   insertNode(&head, 2);
+  insertNode(&head, 3);
 
-  printf("%d\n", head->value);
-  printf("%d\n", head->next->value);
+  // print list
+  printList(head);
 
   return 0;
 }
@@ -51,4 +52,15 @@ void insertNode(struct node **headPtr, int value)
     // recursive call, passing address of head for sub-list (think list within list)
     insertNode(&(**headPtr).next, value);
   }
+}
+
+// printList implementation
+void printList(struct node *head)
+{
+  // base case
+  if (head == NULL)
+    return;
+
+  printf("%d\n", head->value);
+  printList(head->next);
 }
