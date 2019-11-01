@@ -7,19 +7,22 @@ void swap(void *, void *, int);
 bool greaterThan(int, int);
 bool lessThan(int, int);
 void bubbleSort(int[], int, bool (*)(int, int));
-void insertionSort(int[], int);
+void insertionSort(int[], int, bool (*)(int, int));
 
 int main(int argc, char const *argv[])
 {
   int n = 10;
   int numbers[n];
 
+  bool (*ascending)(int, int) = greaterThan;
+  bool (*descending)(int, int) = lessThan;
+
   for (int i = 0; i < n; i++)
     numbers[i] = i;
 
   // perform sorting
-  // bubbleSort(numbers, n, lessThan);
-  // insertionSort(numbers, n);
+  // bubbleSort(numbers, n, descending);
+  // insertionSort(numbers, n, ascending);
 
   for (int i = 0; i < n; i++)
     printf("%d\n", numbers[i]);
@@ -49,22 +52,22 @@ bool lessThan(int x, int y)
   return !greaterThan(x, y);
 }
 
-void bubbleSort(int numbers[], int n, bool (*compare)(int x, int y))
+void bubbleSort(int numbers[], int n, bool (*comparator)(int x, int y))
 {
   for (int i = 0; i < n; i++)
     for (int j = 0; j < n - i - 1; j++)
-      if ((*compare)(numbers[j], numbers[j + 1]))
+      if ((*comparator)(numbers[j], numbers[j + 1]))
         swap(&numbers[j], &numbers[j + 1], sizeof(int));
 }
 
-void insertionSort(int numbers[], int n)
+void insertionSort(int numbers[], int n, bool (*comparator)(int x, int y))
 {
   for (int i = 0; i < n; i++)
   {
     int j;
     int insertee = numbers[i];
 
-    for (j = i; j > 0 && !(insertee > numbers[j - 1]); j--)
+    for (j = i; j > 0 && !(*comparator)(insertee, numbers[j - 1]); j--)
       swap(&numbers[j - 1], &numbers[j], sizeof(int));
 
     numbers[j] = insertee;
