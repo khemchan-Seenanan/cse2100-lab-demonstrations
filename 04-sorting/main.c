@@ -8,26 +8,24 @@ bool greaterThan(int, int);
 bool lessThan(int, int);
 void bubbleSort(int[], int, bool (*)(int, int));
 void insertionSort(int[], int, bool (*)(int, int));
+void selectionSort(int[], int, bool (*)(int, int));
 
 int main(int argc, char const *argv[])
 {
-  int n = 10;
-  int numbers[n];
+  int n = 6;
+  int numbers[] = {3, 1, 4, 1, 5, 2};
 
   bool (*ascending)(int, int) = greaterThan;
   bool (*descending)(int, int) = lessThan;
 
-  for (int i = 0; i < n; i++)
-    numbers[i] = i;
-
   // perform sorting
   // bubbleSort(numbers, n, descending);
   // insertionSort(numbers, n, ascending);
+  // selectionSort(numbers, n, descending);
 
+  // print sorted array
   for (int i = 0; i < n; i++)
     printf("%d\n", numbers[i]);
-
-  puts("");
 
   return 0;
 }
@@ -71,5 +69,19 @@ void insertionSort(int numbers[], int n, bool (*comparator)(int x, int y))
       swap(&numbers[j - 1], &numbers[j], sizeof(int));
 
     numbers[j] = insertee;
+  }
+}
+
+void selectionSort(int numbers[], int n, bool (*comparator)(int x, int y))
+{
+  for (int i = 0; i < n; i++)
+  {
+    int max_index = 0;
+
+    for (int j = 1; j < n - i; j++)
+      if ((*comparator)(numbers[j], numbers[max_index]))
+        max_index = j;
+
+    swap(&numbers[n - i - 1], &numbers[max_index], sizeof(int));
   }
 }
