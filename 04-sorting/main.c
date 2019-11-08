@@ -9,11 +9,12 @@ bool lessThan(int, int);
 void bubbleSort(int[], int, bool (*)(int, int));
 void insertionSort(int[], int, bool (*)(int, int));
 void selectionSort(int[], int, bool (*)(int, int));
+void mergeSort(int[], int);
 
 int main(int argc, char const *argv[])
 {
   int n = 6;
-  int numbers[] = {3, 1, 4, 1, 5, 2};
+  int numbers[] = {3, 1, 4, 1, 5, 9};
 
   bool (*ascending)(int, int) = greaterThan;
   bool (*descending)(int, int) = lessThan;
@@ -22,10 +23,10 @@ int main(int argc, char const *argv[])
   // bubbleSort(numbers, n, descending);
   // insertionSort(numbers, n, ascending);
   // selectionSort(numbers, n, descending);
-
+  mergeSort(numbers, n);
   // print sorted array
-  for (int i = 0; i < n; i++)
-    printf("%d\n", numbers[i]);
+  // for (int i = 0; i < n; i++)
+  // printf("%d\n", numbers[i]);
 
   return 0;
 }
@@ -84,4 +85,24 @@ void selectionSort(int numbers[], int n, bool (*comparator)(int x, int y))
 
     swap(&numbers[n - i - 1], &numbers[max_index], sizeof(int));
   }
+}
+
+void mergeSort(int numbers[], int n)
+{
+  if (n == 1)
+    return;
+
+  int former_n = n / 2;
+  int latter_n = n - n / 2;
+
+  int former_numbers[former_n];
+  int latter_numbers[latter_n];
+
+  memcpy(former_numbers, numbers, sizeof(int) * former_n);
+  memcpy(latter_numbers, numbers + former_n, sizeof(int) * latter_n);
+
+  mergeSort(former_numbers, former_n);
+  mergeSort(latter_numbers, latter_n);
+
+  // Todo: merge former and latter halves
 }
