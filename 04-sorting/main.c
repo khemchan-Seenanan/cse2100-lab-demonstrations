@@ -10,6 +10,7 @@ void bubbleSort(int[], int, bool (*)(int, int));
 void insertionSort(int[], int, bool (*)(int, int));
 void selectionSort(int[], int, bool (*)(int, int));
 void mergeSort(int[], int);
+void quickSort(int[], int);
 
 int main(int argc, char const *argv[])
 {
@@ -23,10 +24,12 @@ int main(int argc, char const *argv[])
   // bubbleSort(numbers, n, descending);
   // insertionSort(numbers, n, ascending);
   // selectionSort(numbers, n, descending);
-  mergeSort(numbers, n);
+  // mergeSort(numbers, n);
+  quickSort(numbers, n);
+
   // print sorted array
-  // for (int i = 0; i < n; i++)
-  // printf("%d\n", numbers[i]);
+  for (int i = 0; i < n; i++)
+    printf("%d\n", numbers[i]);
 
   return 0;
 }
@@ -89,6 +92,7 @@ void selectionSort(int numbers[], int n, bool (*comparator)(int x, int y))
 
 void mergeSort(int numbers[], int n)
 {
+  // No work needs to be done
   if (n == 1)
     return;
 
@@ -105,4 +109,25 @@ void mergeSort(int numbers[], int n)
   mergeSort(latter_numbers, latter_n);
 
   // Todo: merge former and latter halves
+}
+
+void quickSort(int numbers[], int n)
+{
+  if (n <= 1)
+    return;
+
+  int end = n - 1;
+  int pivot = numbers[end];
+
+  int i, j;
+
+  for (i = 0, j = -1; i < end; i++)
+    if (numbers[i] < pivot)
+      swap(&numbers[++j], &numbers[i], sizeof(int));
+
+  int pivot_index = j + 1;
+  swap(&numbers[pivot_index], &numbers[end], sizeof(int));
+
+  quickSort(numbers, pivot_index - 1);
+  quickSort(&numbers[pivot_index + 1], n - (pivot_index + 1));
 }
